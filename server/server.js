@@ -6,6 +6,8 @@ const port = 5001;
 
 app.use(express.static("server/public"));
 
+app.use(express.urlencoded());
+
 const quoteList = require("./modules/quoteList");
 
 app.listen(port, () => {
@@ -37,3 +39,10 @@ app.get("/quotes", function (req, res) {
 // R - get
 // U - put
 // D - delete
+
+app.post("/quotes", function (req, res) {
+	console.log("in the post request", req.body);
+	quoteList.push(req.body);
+	// res.sendStatus(404);
+	res.sendStatus(201);
+});
