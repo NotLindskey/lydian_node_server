@@ -2,7 +2,7 @@
 const express = require("express");
 
 const app = express();
-const port = 5001;
+const PORT = 5001;
 
 app.use(express.static("server/public"));
 
@@ -10,8 +10,8 @@ app.use(express.urlencoded());
 
 const quoteList = require("./modules/quoteList");
 
-app.listen(port, () => {
-	console.log("listening on port ", port);
+app.listen(PORT, () => {
+	console.log("listening on port ", PORT);
 });
 
 // control = c closes the server
@@ -42,7 +42,11 @@ app.get("/quotes", function (req, res) {
 
 app.post("/quotes", function (req, res) {
 	console.log("in the post request", req.body);
-	quoteList.push(req.body);
-	// res.sendStatus(404);
-	res.sendStatus(201);
+	if (req.body.text && req.body.author) {
+		quoteList.push(req.body);
+		// res.sendStatus(404);
+		res.sendStatus(201);
+	} else {
+		res.sendStatus(500);
+	}
 });
